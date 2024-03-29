@@ -2,6 +2,7 @@ package guru.springframework.spring6webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,12 @@ public class Book {
     @ManyToMany
     @JoinTable(name = "authot_book", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
+
+
+
+     @ManyToOne
+    private Publicsher publicsher;
 
     public Long getId() {
         return id;
@@ -23,6 +29,23 @@ public class Book {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Publicsher getPublicsher() {
+        return publicsher;
+    }
+
+    public void setPublicsher(Publicsher publicsher) {
+        this.publicsher = publicsher;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
     public String getTitle() {
@@ -39,5 +62,28 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", authors=" + authors +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book book)) return false;
+
+        return getId().equals(book.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 }
